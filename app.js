@@ -134,7 +134,7 @@ function readCerts(pathToCerts){
 function renewCerts(){
   exec('sudo ./certbot-auto renew', (err, stdOut, stdErr)=>{
     console.log('renewing certs');//, stdOut);
-    certs = readCerts();
+    certs = readCerts("/etc/letsencrypt/live");
   });
 }
 
