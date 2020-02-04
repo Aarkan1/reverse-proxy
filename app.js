@@ -130,3 +130,16 @@ function readCerts(pathToCerts){
   return certs;
 
 }
+
+function renewCerts(){
+  exec('sudo ./certbot-auto renew', (err, stdOut, stdErr)=>{
+    console.log('renewing certs');//, stdOut);
+    certs = readCerts();
+  });
+}
+
+renewCerts();
+setInterval(renewCerts, 24*60*60*1000);
+
+// sudo ./certbot-auto certonly  --manual --preferred-challenges=dns --email johanwiren2@gmail.com
+// --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.johwir.com -d johwir.com
