@@ -1,7 +1,7 @@
 {
-  "domain.com": 3000,
-  "www.domain.com": {
-    "redirect": "domain.com"
+  "johwir.com": 3000,
+  "www.johwir.com": {
+    "redirect": "johwir.com"
   },
-  "sub.domain.com": 3010 
+  "sub.johwir.com": 3010 
 }
