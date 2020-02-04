@@ -37,8 +37,8 @@ http.createServer((req,res)=>{
 
 // Create a new secure webserver
 https.createServer({
-  key: certs['domain.com'].key,
-  cert: certs['domain.com'].cert
+  key: certs['johwir.com'].key,
+  cert: certs['johwir.com'].cert
 },(req,res) => {
 
   // Set/replace response headers
