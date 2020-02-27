@@ -97,11 +97,13 @@ function setResponseHeaders(req,res){
     res.setHeader('x-powered-by','Love');
 
     // security related (turned off right now)
-    // res.setHeader('strict-transport-security','max-age=31536000; includeSubDomains; preload');
-    // res.setHeader('x-frame-options','SAMEORIGIN');
-    // res.setHeader('x-xss-protection', '1');
-    // res.setHeader('x-content-type-options','nosniff');
-    // res.setHeader('content-security-policy',"default-src * 'unsafe-inline' 'unsafe-eval'");
+    res.setHeader('strict-transport-security','max-age=31536000; includeSubDomains; preload');
+    res.setHeader('x-frame-options','SAMEORIGIN');
+    res.setHeader('x-xss-protection', '1');
+    res.setHeader('x-content-type-options','nosniff');
+    res.setHeader('content-security-policy',"default-src * 'unsafe-inline' 'unsafe-eval'");
+    res.setHeader('x-forwarded-proto', 'https');
+    res.setHeader('x-forwarded-port', 443);
 
     // call the original write head function as well
     res.oldWriteHead(statusCode,headers);
