@@ -50,7 +50,7 @@ module.exports = function rateLimit(timeout, requestLimit) {
 
     const { ip } = req
 
-    console.log(ip);
+    console.log(req);
     
 
     if(adminRoutes.includes(req.url)) {
