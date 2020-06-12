@@ -48,9 +48,9 @@ module.exports = function rateLimit(timeout, requestLimit) {
       return false;
     }
 
-    const { ip } = req
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-    console.log(req);
+    console.log(ip);
     
 
     if(adminRoutes.includes(req.url)) {
