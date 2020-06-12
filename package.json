@@ -18,6 +18,6 @@
   "homepage": "https://github.com/ironboy/reverse-proxy#readme",
   "dependencies": {
     "http-proxy": "^1.16.2",
-    "express": "^4.16.4"
+    "sqlite3": "^4.2.0"
   }
 }

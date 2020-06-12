@@ -6,6 +6,7 @@ const tls = require('tls');
 const fs = require('fs');
 const path = require('path');
 const exec = require('child_process').exec;
+const rateLimit = require('./rateLimit.js')
 
 // Read our routes
 const routes = require('./routing.json');
@@ -25,24 +26,27 @@ proxy.on('error',function(e){
 // Create a new unencrypted webserver
 // with the purpose to redirect all traffic to https
 http.createServer((req,res)=>{
-
   let urlParts = req.url.split('/');
 
   // redirect to https
   let url = 'https://' + req.headers.host + req.url;
   res.writeHead(301, {'Location': url});
   res.end();
-
 }).listen(80);
 
 // Create a new secure webserver
 https.createServer({
   key: certs['johwir.com'].key,
   cert: certs['johwir.com'].cert
-},(req,res) => {
+}, (req, res) => {
 
   // Set/replace response headers
   setResponseHeaders(req,res);
+
+  // each ip can do 1000 requests every 60 seconds
+  if(!rateLimit(60, 1000)(req, res)) {
+    return
+  }
 
   // Routing
   let host = req.headers.host,
@@ -82,9 +86,7 @@ https.createServer({
 
 }).listen(443);
 
-
-function setResponseHeaders(req,res){
-
+function setResponseHeaders(req, res){
   // there is a built in node function called res.writeHead
   // that writes http response headers
   // store that function in another property
@@ -108,7 +110,6 @@ function setResponseHeaders(req,res){
     // call the original write head function as well
     res.oldWriteHead(statusCode,headers);
   }
-
 }
 
 function readCerts(pathToCerts){
@@ -130,12 +131,11 @@ function readCerts(pathToCerts){
   }
 
   return certs;
-
 }
 
 function renewCerts(){
   exec('sudo ./certbot/certbot-auto renew', (err, stdOut, stdErr)=>{
-    console.log('renewing certs');//, stdOut);
+    console.log('renewing certs'); //, stdOut);
     certs = readCerts("/etc/letsencrypt/live");
   });
 }
