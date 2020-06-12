@@ -57,15 +57,12 @@ module.exports = function rateLimit(requestLimit, req, res) {
     hackerIps[ip]++;
 
     // add ip to banned list
-    hackerIps[ip] > 100 && insertBannedIp(ip);
+    hackerIps[ip] > 10 && insertBannedIp(ip);
   }
 
   // ip request counter
   !throttleIps[ip] && (throttleIps[ip] = 0);
   throttleIps[ip]++;
-
-  console.log(throttleIps[ip]);
-  
 
   // timeout on to many requests
   if (throttleIps[ip] > requestLimit) {
