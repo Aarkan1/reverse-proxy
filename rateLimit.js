@@ -41,17 +41,13 @@ const insertBannedIp = async (ip) => {
 initBannedIps();
 
 module.exports = function rateLimit(requestLimit, req, res) {
-  if (bannedIps.includes(req.ip)) {
+  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  
+  if (bannedIps.includes(ip)) {
     res.statusCode = 403;
     res.end("Forbidden");
     return false;
   }
-
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-
-
-  console.log(req.url);
-  
 
   if (adminRoutes.includes(req.url)) {
     console.log("potential hacker url:", req.url);
