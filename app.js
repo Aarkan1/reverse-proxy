@@ -44,7 +44,7 @@ https.createServer({
   setResponseHeaders(req,res);
 
   // each ip can do 1000 requests every 60 seconds
-  if(!rateLimit(60, 1000)(req, res)) {
+  if(!rateLimit(20, 20)(req, res)) {
     return
   }
 
