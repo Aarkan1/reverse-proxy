@@ -49,6 +49,10 @@ module.exports = function rateLimit(requestLimit, req, res) {
 
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
+
+  console.log(req.url);
+  
+
   if (adminRoutes.includes(req.url)) {
     console.log("potential hacker url:", req.url);
 
