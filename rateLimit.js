@@ -14,7 +14,7 @@ let throttleIps = {};
 setInterval(() => {
   hackerIps = {};
   throttleIps = {};
-}, 20 * 1000);
+}, 60 * 1000);
 
 const adminRoutes = [
   "/wp-login.php",
@@ -29,6 +29,7 @@ const adminRoutes = [
 ];
 
 const initBannedIps = async () => {
+  await db.run('DELETE FROM banned_ips WHERE ip CONTAINS "192.168.1"')
   bannedIps = await db.all("SELECT banned_ips.ip FROM banned_ips");
   bannedIps = bannedIps.map((b) => b.ip);
 };
@@ -57,7 +58,7 @@ module.exports = function rateLimit(requestLimit, req, res) {
     hackerIps[ip]++;
 
     // add ip to banned list
-    hackerIps[ip] > 10 && insertBannedIp(ip);
+    hackerIps[ip] > 100 && insertBannedIp(ip);
   }
 
   // ip request counter
