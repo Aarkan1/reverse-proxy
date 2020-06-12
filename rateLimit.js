@@ -36,7 +36,7 @@ const initBannedIps = async () => {
 
 const insertBannedIp = async (ip) => {
   bannedIps.push(ip);
-  await db.run("INSERT INTO banned_ips VALUES(NULL, ?)", ip);
+  await db.run("INSERT INTO banned_ips VALUES(NULL, ?)", ip).catch(() => {});
 };
 
 initBannedIps();
