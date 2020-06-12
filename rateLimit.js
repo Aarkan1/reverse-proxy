@@ -50,7 +50,7 @@ module.exports = function rateLimit(requestLimit, req, res) {
     return false;
   }
 
-  if (!req.url.includes('192.168.1') && adminRoutes.includes(req.url)) {
+  if (adminRoutes.includes(req.url)) {
     console.log("potential hacker url:", req.url);
 
     // potential hacker request counter
